@@ -7,17 +7,33 @@
 			"metadata": "Nombre de instancia de Data Factory",
 			"defaultValue": "adf-ucb-pizza-dw-9134466"
 		},
-		"LS_Storage_PizzaSales_connectionString": {
-			"type": "secureString",
-			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales\""
-		},
 		"LS_SQL_DW_PizzaSales_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"LS_SQL_DW_PizzaSales\""
 		},
+		"LS_SQL_DW_PizzaSales_Clean_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"LS_SQL_DW_PizzaSales_Clean\""
+		},
+		"LS_Storage_PizzaSales_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales\""
+		},
 		"LS_Storage_PizzaSales_Clean_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales_Clean\""
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sql-ucb-pizza-dw-9134466.database.windows.net"
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dw_pizza_sales"
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "andres"
 		}
 	},
 	"variables": {
@@ -25,12 +41,73 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/LS_SQL_DW_PizzaSales')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_SQL_DW_PizzaSales_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SQL_DW_PizzaSales_Clean')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_server')]",
+					"database": "[parameters('LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SQL_DW_PizzaSales_Clean_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_Storage_PizzaSales')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_Storage_PizzaSales_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_Storage_PizzaSales_Clean')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_Storage_PizzaSales_Clean_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_bronze_order_details')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
+					"referenceName": "LS_SQL_DW_PizzaSales_Clean",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -65,7 +142,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales_Clean')]"
 			]
 		},
 		{
@@ -74,7 +151,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
+					"referenceName": "LS_SQL_DW_PizzaSales_Clean",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -103,7 +180,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales_Clean')]"
 			]
 		},
 		{
@@ -112,7 +189,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
+					"referenceName": "LS_SQL_DW_PizzaSales_Clean",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -140,7 +217,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales_Clean')]"
 			]
 		},
 		{
@@ -149,7 +226,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
+					"referenceName": "LS_SQL_DW_PizzaSales_Clean",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -183,210 +260,8 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales_Clean')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_silver_orders')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Silver"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "order_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "order_date",
-						"type": "date"
-					},
-					{
-						"name": "order_time",
-						"type": "time",
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "silver",
-					"table": "orders"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_silver_orders_details')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Silver"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "order_details_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "order_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "pizza_id",
-						"type": "varchar"
-					},
-					{
-						"name": "quantity",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "silver",
-					"table": "order_details"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_silver_pizza_types')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Silver"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "pizza_type_id",
-						"type": "varchar"
-					},
-					{
-						"name": "name",
-						"type": "varchar"
-					},
-					{
-						"name": "category",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "silver",
-					"table": "pizza_types"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_silver_pizzas')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_DW_PizzaSales",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Silver"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "pizza_id",
-						"type": "varchar"
-					},
-					{
-						"name": "pizza_type_id",
-						"type": "varchar"
-					},
-					{
-						"name": "size",
-						"type": "varchar"
-					},
-					{
-						"name": "price",
-						"type": "decimal",
-						"precision": 6,
-						"scale": 2
-					}
-				],
-				"typeProperties": {
-					"schema": "silver",
-					"table": "pizzas"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_Storage_PizzaSales')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_Storage_PizzaSales_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_SQL_DW_PizzaSales')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_SQL_DW_PizzaSales_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_Storage_PizzaSales_Clean')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_Storage_PizzaSales_Clean_connectionString')]"
-				}
-			},
-			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_order_detail_csv')]",
@@ -573,69 +448,166 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_bronze_orders')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
+			"name": "[concat(parameters('factoryName'), '/ds_silver_orders')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"folder": {
-					"name": "Bronze"
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_DW_PizzaSales",
+					"type": "LinkedServiceReference"
 				},
-				"type": "MappingDataFlow",
+				"folder": {
+					"name": "Silver"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "order_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "order_date",
+						"type": "date"
+					},
+					{
+						"name": "order_time",
+						"type": "time",
+						"scale": 0
+					}
+				],
 				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_orders_csv",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_orders",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          order_id as string,",
-						"          date as string,",
-						"          time as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          order_id as integer,",
-						"          date as string,",
-						"          time as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          order_id,",
-						"          date,",
-						"          time",
-						"     )) ~> sink1"
-					]
+					"schema": "silver",
+					"table": "orders"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_orders_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_orders')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_orders_details')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_DW_PizzaSales",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Silver"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "order_details_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "order_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "pizza_id",
+						"type": "varchar"
+					},
+					{
+						"name": "quantity",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "silver",
+					"table": "order_details"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_pizza_types')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_DW_PizzaSales",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Silver"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "pizza_type_id",
+						"type": "varchar"
+					},
+					{
+						"name": "name",
+						"type": "varchar"
+					},
+					{
+						"name": "category",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "silver",
+					"table": "pizza_types"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_pizzas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_DW_PizzaSales",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Silver"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "pizza_id",
+						"type": "varchar"
+					},
+					{
+						"name": "pizza_type_id",
+						"type": "varchar"
+					},
+					{
+						"name": "size",
+						"type": "varchar"
+					},
+					{
+						"name": "price",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "silver",
+					"table": "pizzas"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_DW_PizzaSales')]"
 			]
 		},
 		{
@@ -708,7 +680,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_bronze_pizzas')]",
+			"name": "[concat(parameters('factoryName'), '/df_bronze_orders')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -720,7 +692,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "ds_pizzas_csv",
+								"referenceName": "ds_orders_csv",
 								"type": "DatasetReference"
 							},
 							"name": "source1"
@@ -729,7 +701,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "ds_bronze_pizzas",
+								"referenceName": "ds_bronze_orders",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -738,10 +710,9 @@
 					"transformations": [],
 					"scriptLines": [
 						"source(output(",
-						"          pizza_id as string,",
-						"          pizza_type_id as string,",
-						"          size as string,",
-						"          price as decimal(10,0)",
+						"          order_id as string,",
+						"          date as string,",
+						"          time as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -749,10 +720,9 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          pizza_id as string,",
-						"          pizza_type_id as string,",
-						"          size as string,",
-						"          price as decimal(6,2)",
+						"          order_id as integer,",
+						"          date as string,",
+						"          time as string",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -763,17 +733,16 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
-						"          pizza_id,",
-						"          pizza_type_id,",
-						"          size,",
-						"          price",
+						"          order_id,",
+						"          date,",
+						"          time",
 						"     )) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_pizzas_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_pizzas')]"
+				"[concat(variables('factoryId'), '/datasets/ds_orders_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_orders')]"
 			]
 		},
 		{
@@ -843,52 +812,72 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_Bronze')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/df_bronze_pizzas')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Data flow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_bronze_pizzas",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
 				"folder": {
 					"name": "Bronze"
 				},
-				"annotations": []
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_pizzas_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_pizzas",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          pizza_id as string,",
+						"          pizza_type_id as string,",
+						"          size as string,",
+						"          price as decimal(10,0)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          pizza_id as string,",
+						"          pizza_type_id as string,",
+						"          size as string,",
+						"          price as decimal(6,2)",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          pizza_id,",
+						"          pizza_type_id,",
+						"          size,",
+						"          price",
+						"     )) ~> sink1"
+					]
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_bronze_pizzas')]"
+				"[concat(variables('factoryId'), '/datasets/ds_pizzas_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_pizzas')]"
 			]
 		}
 	]

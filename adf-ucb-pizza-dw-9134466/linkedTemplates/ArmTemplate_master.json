@@ -7,17 +7,33 @@
 			"metadata": "Nombre de instancia de Data Factory",
 			"defaultValue": "adf-ucb-pizza-dw-9134466"
 		},
-		"LS_Storage_PizzaSales_connectionString": {
-			"type": "secureString",
-			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales\""
-		},
 		"LS_SQL_DW_PizzaSales_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"LS_SQL_DW_PizzaSales\""
 		},
+		"LS_SQL_DW_PizzaSales_Clean_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"LS_SQL_DW_PizzaSales_Clean\""
+		},
+		"LS_Storage_PizzaSales_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales\""
+		},
 		"LS_Storage_PizzaSales_Clean_connectionString": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales_Clean\""
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sql-ucb-pizza-dw-9134466.database.windows.net"
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dw_pizza_sales"
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "andres"
 		},
 		"containerUri": {
 			"type": "string",
@@ -46,18 +62,50 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"LS_Storage_PizzaSales_connectionString": {
-						"value": "[parameters('LS_Storage_PizzaSales_connectionString')]"
-					},
 					"LS_SQL_DW_PizzaSales_connectionString": {
 						"value": "[parameters('LS_SQL_DW_PizzaSales_connectionString')]"
 					},
+					"LS_SQL_DW_PizzaSales_Clean_password": {
+						"value": "[parameters('LS_SQL_DW_PizzaSales_Clean_password')]"
+					},
+					"LS_Storage_PizzaSales_connectionString": {
+						"value": "[parameters('LS_Storage_PizzaSales_connectionString')]"
+					},
 					"LS_Storage_PizzaSales_Clean_connectionString": {
 						"value": "[parameters('LS_Storage_PizzaSales_Clean_connectionString')]"
+					},
+					"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_server')]"
+					},
+					"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_database')]"
+					},
+					"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_userName')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "adf-ucb-pizza-dw-9134466_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-ucb-pizza-dw-9134466_ArmTemplate_0')]"
+			]
 		}
 	]
 }

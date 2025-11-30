@@ -5,14 +5,26 @@
 		"factoryName": {
 			"value": "adf-ucb-pizza-dw-9134466"
 		},
-		"LS_Storage_PizzaSales_connectionString": {
+		"LS_SQL_DW_PizzaSales_connectionString": {
 			"value": ""
 		},
-		"LS_SQL_DW_PizzaSales_connectionString": {
+		"LS_SQL_DW_PizzaSales_Clean_password": {
+			"value": ""
+		},
+		"LS_Storage_PizzaSales_connectionString": {
 			"value": ""
 		},
 		"LS_Storage_PizzaSales_Clean_connectionString": {
 			"value": ""
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_server": {
+			"value": "sql-ucb-pizza-dw-9134466.database.windows.net"
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_database": {
+			"value": "dw_pizza_sales"
+		},
+		"LS_SQL_DW_PizzaSales_Clean_properties_typeProperties_userName": {
+			"value": "andres"
 		},
 		"containerUri": {
 			"value": ""
