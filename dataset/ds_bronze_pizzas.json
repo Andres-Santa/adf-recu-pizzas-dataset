@@ -1,0 +1,38 @@
+{
+	"name": "ds_bronze_pizzas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_DW_PizzaSales",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Bronze"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "pizza_id",
+				"type": "varchar"
+			},
+			{
+				"name": "pizza_type_id",
+				"type": "varchar"
+			},
+			{
+				"name": "size",
+				"type": "varchar"
+			},
+			{
+				"name": "price",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "bronze",
+			"table": "pizzas_raw"
+		}
+	}
+}

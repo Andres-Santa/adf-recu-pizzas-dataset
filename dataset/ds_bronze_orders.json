@@ -1,0 +1,33 @@
+{
+	"name": "ds_bronze_orders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_DW_PizzaSales",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Bronze"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "order_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "date",
+				"type": "varchar"
+			},
+			{
+				"name": "time",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "bronze",
+			"table": "orders_raw"
+		}
+	}
+}
