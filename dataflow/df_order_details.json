@@ -1,5 +1,5 @@
 {
-	"name": "df_orders",
+	"name": "df_order_details",
 	"properties": {
 		"folder": {
 			"name": "Bronze"
@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_orders_csv",
+						"referenceName": "ds_order_detail_csv",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -18,7 +18,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_bronze_orders",
+						"referenceName": "ds_bronze_order_details",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -27,9 +27,10 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
+				"          order_details_id as string,",
 				"          order_id as string,",
-				"          date as string,",
-				"          time as string",
+				"          pizza_id as string,",
+				"          quantity as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -37,9 +38,10 @@
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
+				"          order_details_id as integer,",
 				"          order_id as integer,",
-				"          date as string,",
-				"          time as string",
+				"          pizza_id as string,",
+				"          quantity as integer",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -50,9 +52,10 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
+				"          order_details_id,",
 				"          order_id,",
-				"          date,",
-				"          time",
+				"          pizza_id,",
+				"          quantity",
 				"     )) ~> sink1"
 			]
 		}
