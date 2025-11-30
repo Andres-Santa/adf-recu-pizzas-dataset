@@ -30,6 +30,10 @@
 				"type": "int",
 				"precision": 10
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "bronze",
+			"table": "order_details_raw"
+		}
 	}
 }

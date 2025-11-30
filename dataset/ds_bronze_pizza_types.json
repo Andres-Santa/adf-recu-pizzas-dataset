@@ -23,6 +23,10 @@
 				"name": "category",
 				"type": "varchar"
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "bronze",
+			"table": "pizza_types_raw"
+		}
 	}
 }

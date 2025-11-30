@@ -24,6 +24,10 @@
 				"name": "time",
 				"type": "varchar"
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "bronze",
+			"table": "orders_raw"
+		}
 	}
 }
