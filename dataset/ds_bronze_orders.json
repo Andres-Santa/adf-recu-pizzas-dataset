@@ -2,7 +2,7 @@
 	"name": "ds_bronze_orders",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_SQL_DW_PizzaSales",
+			"referenceName": "LS_SQL_DW_PizzaSales_Clean",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
@@ -24,10 +24,6 @@
 				"name": "time",
 				"type": "varchar"
 			}
-		],
-		"typeProperties": {
-			"schema": "bronze",
-			"table": "orders_raw"
-		}
+		]
 	}
 }
