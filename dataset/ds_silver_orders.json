@@ -1,0 +1,34 @@
+{
+	"name": "ds_silver_orders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_DW_PizzaSales",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Silver"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "order_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "order_date",
+				"type": "date"
+			},
+			{
+				"name": "order_time",
+				"type": "time",
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "silver",
+			"table": "orders"
+		}
+	}
+}
