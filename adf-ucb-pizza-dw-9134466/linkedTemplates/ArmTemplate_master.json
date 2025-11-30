@@ -1,0 +1,63 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "adf-ucb-pizza-dw-9134466"
+		},
+		"LS_Storage_PizzaSales_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales\""
+		},
+		"LS_SQL_DW_PizzaSales_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_SQL_DW_PizzaSales\""
+		},
+		"LS_Storage_PizzaSales_Clean_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_Storage_PizzaSales_Clean\""
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI de la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas."
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Token de SAS para la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adf-ucb-pizza-dw-9134466_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_Storage_PizzaSales_connectionString": {
+						"value": "[parameters('LS_Storage_PizzaSales_connectionString')]"
+					},
+					"LS_SQL_DW_PizzaSales_connectionString": {
+						"value": "[parameters('LS_SQL_DW_PizzaSales_connectionString')]"
+					},
+					"LS_Storage_PizzaSales_Clean_connectionString": {
+						"value": "[parameters('LS_Storage_PizzaSales_Clean_connectionString')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

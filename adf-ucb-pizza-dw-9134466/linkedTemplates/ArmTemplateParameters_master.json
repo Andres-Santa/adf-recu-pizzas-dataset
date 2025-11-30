@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-ucb-pizza-dw-9134466"
+		},
+		"LS_Storage_PizzaSales_connectionString": {
+			"value": ""
+		},
+		"LS_SQL_DW_PizzaSales_connectionString": {
+			"value": ""
+		},
+		"LS_Storage_PizzaSales_Clean_connectionString": {
+			"value": ""
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
