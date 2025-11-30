@@ -1,0 +1,39 @@
+{
+	"name": "ds_orders_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Storage_PizzaSales",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Bronze"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "orders.csv",
+				"container": "raw-pizza"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "order_id",
+				"type": "String"
+			},
+			{
+				"name": "date",
+				"type": "String"
+			},
+			{
+				"name": "time",
+				"type": "String"
+			}
+		]
+	}
+}
