@@ -1,5 +1,5 @@
 {
-	"name": "df_orders",
+	"name": "df_bronze_orders",
 	"properties": {
 		"folder": {
 			"name": "Bronze"
