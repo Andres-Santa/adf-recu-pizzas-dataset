@@ -2,7 +2,7 @@
 	"name": "ds_order_detail_csv",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_Storage_PizzaSales",
+			"referenceName": "LS_Storage_PizzaSales_Clean",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
